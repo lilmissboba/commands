@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>miss boba's cafe commands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3E2C6;--card:#FFF9EF;--ink:#3A2419;--muted:#7C5E48;--chip:#5A3826;--chipText:#FBEFDD;--line:#E4D1B6;--stage:#F7ECDD;--pink:#E890AB;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#24170F;--card:#34231A;--ink:#FBEFDD;--muted:#D9C3A2;--chip:#F2C98E;--chipText:#2A1B12;--line:#4E3726;--stage:#3E2A1E}}
+:root[data-theme="dark"]{--bg:#24170F;--card:#34231A;--ink:#FBEFDD;--muted:#D9C3A2;--chip:#F2C98E;--chipText:#2A1B12;--line:#4E3726;--stage:#3E2A1E}
+*,*::before,*::after{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font-family:"Fredoka","Nunito","Trebuchet MS",system-ui,sans-serif;line-height:1.4}
+main{max-width:1040px;margin:0 auto;padding:32px 18px 56px}
+h1{font-family:"Gaegu","Comic Sans MS",cursive;font-size:clamp(2.4rem,6vw,3.4rem);line-height:1}
+.lede{color:var(--muted);margin:8px 0 18px;max-width:60ch}
+.lede a,.hint a{color:inherit;font-weight:600}
+.search{display:flex;gap:8px;align-items:center;margin-bottom:22px}
+.search input{font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;width:min(100%,340px)}
+.search input:focus-visible{outline:3px solid var(--chip);outline-offset:2px}
+section{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:18px 18px 20px;margin-bottom:18px}
+section header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:14px}
+h2{font-size:1.25rem;font-weight:600}
+.hint{color:var(--muted);font-size:.92rem}
+.tag{font-size:.8rem;font-weight:600;background:var(--pink);color:#3A2419;border-radius:999px;padding:2px 10px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.item{background:var(--stage);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.item p{font-size:.95rem}
+.item .alt{color:var(--muted);font-size:.82rem}
+.item .alt code{font-size:.78rem;padding:0 6px 1px;background:transparent;color:var(--muted);border:1px solid var(--line)}
+code{font-family:inherit;font-weight:600;background:var(--chip);color:var(--chipText);border-radius:6px;padding:1px 8px 2px;font-size:.92rem;white-space:nowrap}
+button.cmd{font:inherit;border:0;padding:0;background:none;cursor:pointer;align-self:flex-start;position:relative}
+button.cmd code{font-size:1rem;padding:3px 10px 4px}
+button.cmd:hover code{filter:brightness(1.12)}
+button.cmd:focus-visible{outline:3px solid var(--chip);outline-offset:3px;border-radius:8px}
+button.cmd.copied::after{content:"copied!";position:absolute;left:calc(100% + 8px);top:50%;transform:translateY(-50%);font-size:.8rem;font-weight:600;color:var(--muted);white-space:nowrap}
+.cmds{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.or{color:var(--muted);font-size:.9rem}
+.empty{display:none;color:var(--muted);text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<main>
+  <h1>miss boba's cafe commands</h1>
+  <p class="lede">everything you can type in chat! tap a command to copy it, then paste it into the chatbox.</p>
+  <div class="search"><input id="q" type="search" placeholder="search commands, like lurk or boba" aria-label="Search commands"></div>
+  <div id="sections"></div>
+  <p class="empty" id="empty">no commands match that. try another word!</p>
+</main>
+<script>
+(() => {
+const SECTIONS = [
+  { title: "miss boba's cafe commands", items: [
+    { cmds: ["!task"], desc: "add what you're working on" },
+    { cmds: ["!focus"], desc: "pick a task to focus on" },
+    { cmds: ["!done"], desc: "mark a task done" },
+    { cmds: ["!list"], desc: "see your task list in chat" },
+    { cmds: ["!lookbook"], desc: "edit your appearance" },
+    { cmds: ["!lurk"], desc: "sit by the window" },
+    { cmds: ["!unlurk"], desc: "come back to the table" },
+    { cmds: ["!pat", "!pet"], desc: "pat my puppy, ashe" }
+  ]},
+  { title: "other commands", items: [
+    { cmds: ["!work", "!study"], desc: "come work and study with miss boba" },
+    { cmds: ["!job"], desc: "learn what profession miss boba is in" },
+    { cmds: ["!discord"], desc: "miss boba's cafe discord server link will pop up" },
+    { cmds: ["!youtube"], desc: "miss boba's cafe youtube channel link will pop up" },
+    { cmds: ["!tips"], desc: "donations are never expected, but always appreciated!" },
+    { cmds: ["!boba"], desc: "only if you dare!" }
+  ]}
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+const root = document.getElementById("sections");
+root.innerHTML = SECTIONS.map(s => `
+  <section>
+    <header><h2>${esc(s.title)}</h2></header>
+    <div class="list">${s.items.map(i => `
+      <div class="item" data-search="${esc((i.cmds.join(" ") + " " + i.desc).toLowerCase())}">
+        <div class="cmds">${i.cmds.map(c => `<button class="cmd" type="button" data-copy="${esc(c)}" aria-label="Copy ${esc(c)}"><code>${esc(c)}</code></button>`).join('<span class="or">or</span>')}</div>
+        <p>${esc(i.desc)}</p>
+      </div>`).join("")}
+    </div>
+  </section>`).join("");
+
+root.addEventListener("click", async e => {
+  const b = e.target.closest("button.cmd"); if (!b) return;
+  const text = b.dataset.copy;
+  try { await navigator.clipboard.writeText(text); }
+  catch { const t = document.createElement("textarea"); t.value = text; document.body.appendChild(t); t.select(); try { document.execCommand("copy"); } catch {} t.remove(); }
+  b.classList.add("copied"); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove("copied"), 1400);
+});
+
+const q = document.getElementById("q"), empty = document.getElementById("empty");
+q.addEventListener("input", () => {
+  const term = q.value.trim().toLowerCase().replace(/^!/, "");
+  let shown = 0;
+  root.querySelectorAll("section").forEach(sec => {
+    let n = 0;
+    sec.querySelectorAll(".item").forEach(it => { const ok = !term || it.dataset.search.includes(term); it.hidden = !ok; if (ok) n++; });
+    sec.hidden = n === 0; shown += n;
+  });
+  empty.style.display = shown ? "none" : "block";
+});
+})();
+</script>
+</body>
+</html>
