@@ -82,7 +82,11 @@ const SECTIONS = [
     { cmds: ["!guestbook"], desc: "opens the guestbook" },
     { cmds: ["!sign", "!sign [message]"], desc: "signs the guestbook" },
     { cmds: ["!gacha"], desc: "pulls a random drink, once a day" },
-    { cmds: ["!collection"], desc: "shows your gacha collection" }
+    { cmds: ["!collection"], desc: "shows your gacha collection" },
+    { cmds: ["!reading [title]"], desc: "adds a book to your “currently reading”, up to 5 at once" },
+    { cmds: ["!finished", "!finished 2", "!finished [title]"], desc: "finishes the book you added most recently, or a specific book by its number or title" },
+    { cmds: ["!removebook 2", "!removebook [title]"], desc: "takes a book off your shelf, if you made a mistake" },
+    { cmds: ["!bookshelf"], desc: "pops up your bookshelf with your currently reading and finished books, with dates" }
   ]},
   { title: "other commands", items: [
     { cmds: ["!work", "!study"], desc: "come work and study with miss boba" },
