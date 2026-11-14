@@ -40,6 +40,7 @@ button.cmd:focus-visible{outline:3px solid var(--chip);outline-offset:3px;border
 button.cmd.copied::after{content:"copied!";position:absolute;left:calc(100% + 8px);top:50%;transform:translateY(-50%);font-size:.8rem;font-weight:600;color:var(--muted);white-space:nowrap}
 .cmds{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
 .or{color:var(--muted);font-size:.9rem}
+.item a.link{color:var(--ink);font-weight:600;font-size:.92rem;text-underline-offset:3px;overflow-wrap:anywhere}
 .empty{display:none;color:var(--muted);text-align:center;padding:20px}
 </style>
 </head>
@@ -54,7 +55,7 @@ button.cmd.copied::after{content:"copied!";position:absolute;left:calc(100% + 8p
 <script>
 (() => {
 const SECTIONS = [
-  { title: "miss boba's cafe commands", items: [
+  { title: "task commands", items: [
     { cmds: ["!task"], desc: "add what you're working on" },
     { cmds: ["!focus"], desc: "pick a task to focus on" },
     { cmds: ["!done"], desc: "mark a task done" },
@@ -63,9 +64,16 @@ const SECTIONS = [
     { cmds: ["!list"], desc: "see your task list in chat" },
     { cmds: ["!urgent", "!impt"], desc: "adds an important task" },
     { cmds: ["!urgentlist"], desc: "shows the list of urgent/important tasks you're working on" },
+    { cmds: ["!web"], desc: "you can still work on your task list even if my stream is offline!", link: "https://lilmissboba.github.io/cafe/" }
+  ]},
+  { title: "grocery list commands", items: [
     { cmds: ["!buy"], desc: "add what you need to buy into the grocery list" },
     { cmds: ["!got", "!bought"], desc: "ticks the item off on the grocery list" },
     { cmds: ["!grocery"], desc: "shows the full grocery list" },
+    { cmds: ["!grocery clear"], desc: "clears the grocery list" },
+    { cmds: ["!grocery remove"], desc: "removes something you didn't mean to put in the grocery list" }
+  ]},
+  { title: "fun commands", items: [
     { cmds: ["!lookbook"], desc: "edit your appearance" },
     { cmds: ["!lurk"], desc: "sit by the window" },
     { cmds: ["!unlurk"], desc: "come back to the table" },
@@ -83,10 +91,19 @@ const SECTIONS = [
     { cmds: ["!sign", "!sign [message]"], desc: "signs the guestbook" },
     { cmds: ["!gacha"], desc: "pulls a random drink, once a day" },
     { cmds: ["!collection"], desc: "shows your gacha collection" },
+    { cmds: ["!puzzle"], desc: "shows the latest puzzle to work on!" }
+  ]},
+  { title: "bookshelf commands", items: [
+    { cmds: ["!bookshelf"], desc: "pops up your bookshelf with your currently reading and finished books, with dates" },
     { cmds: ["!reading [title]"], desc: "adds a book to your “currently reading”, up to 5 at once" },
     { cmds: ["!finished", "!finished 2", "!finished [title]"], desc: "finishes the book you added most recently, or a specific book by its number or title" },
-    { cmds: ["!removebook 2", "!removebook [title]"], desc: "takes a book off your shelf, if you made a mistake" },
-    { cmds: ["!bookshelf"], desc: "pops up your bookshelf with your currently reading and finished books, with dates" }
+    { cmds: ["!removebook 2", "!removebook [title]"], desc: "takes a book off your shelf, if you made a mistake" }
+  ]},
+  { title: "water hydration commands", items: [
+    { cmds: ["!water"], desc: "see your water log" },
+    { cmds: ["!water add [500ml]"], desc: "adds 500ml towards your daily water goal" },
+    { cmds: ["!water goal [2.5L]"], desc: "changes your daily water goal to 2.5L" },
+    { cmds: ["!water undo"], desc: "undoes your last entry if you got the amount wrong" }
   ]},
   { title: "other commands", items: [
     { cmds: ["!work", "!study"], desc: "come work and study with miss boba" },
@@ -108,6 +125,7 @@ root.innerHTML = SECTIONS.map(s => `
       <div class="item" data-search="${esc((i.cmds.join(" ") + " " + i.desc).toLowerCase())}">
         <div class="cmds">${i.cmds.map(c => `<button class="cmd" type="button" data-copy="${esc(c)}" aria-label="Copy ${esc(c)}"><code>${esc(c)}</code></button>`).join('<span class="or">or</span>')}</div>
         <p>${esc(i.desc)}</p>
+        ${i.link ? `<a class="link" href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.link.replace(/^https:\/\//, "").replace(/\/$/, ""))}</a>` : ""}
       </div>`).join("")}
     </div>
   </section>`).join("");
