@@ -62,6 +62,10 @@ const SECTIONS = [
     { cmds: ["!edit"], desc: "edit a task on your list" },
     { cmds: ["!repeat"], desc: "add a daily task that repeats daily, like !repeat 9am SGT stretch" },
     { cmds: ["!list"], desc: "see your task list in chat" },
+    { cmds: ["!task work: finish report"], desc: "adds “finish report” to your “work” folder" },
+    { cmds: ["!folder 3 study"], desc: "moves task 3 into a “study” folder. use !folder 3 none to take it out" },
+    { cmds: ["!list work"], desc: "see just that folder" },
+    { cmds: ["!folders"], desc: "see all your folders" },
     { cmds: ["!urgent", "!impt"], desc: "adds an important task" },
     { cmds: ["!urgentlist"], desc: "shows the list of urgent/important tasks you're working on" },
     { cmds: ["!web"], desc: "you can still work on your task list even if my stream is offline!", link: "https://lilmissboba.github.io/cafe/" }
